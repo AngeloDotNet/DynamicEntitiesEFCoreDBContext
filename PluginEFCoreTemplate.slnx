@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.targets" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/App.Abstractions/App.Abstractions.csproj" />
+  <Project Path="src/App.Host/App.Host.csproj" />
+  <Project Path="src/PluginProduct/PluginProduct.csproj" />
+</Solution>

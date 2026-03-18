@@ -1,0 +1,33 @@
+<Project>
+  <PropertyGroup>
+    <!--Default folder dove mettere i plugin (puoi sovrascriverla via -p:HostPluginsBaseFolder=...)--> 
+    <HostPluginsBaseFolder>$(MSBuildThisFileDirectory)\..\App.Host\bin\$(Configuration)\$(TargetFramework)\plugins</HostPluginsBaseFolder>
+  </PropertyGroup>
+
+	<!-- Dopo la build, copia la DLL principale nella cartella plugins del progetto host -->
+	<Target Name="CopyPluginToHostPlugins" AfterTargets="Build">
+		<PropertyGroup>
+            <!--Modifica il percorso se la struttura soluzione è diversa--> 
+		    <HostPluginsFolder>$(MSBuildProjectDirectory)\..\App.Host\bin\$(Configuration)\$(TargetFramework)\plugins\</HostPluginsFolder>
+		</PropertyGroup>
+
+		<MakeDir Directories="$(HostPluginsFolder)" Condition="!Exists('$(HostPluginsFolder)')" />
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(HostPluginsFolder)" SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- Dopo la build, copia dll, pdb, deps.json, runtimeconfig.json, e qualsiasi file nella cartella plugins del progetto host -->
+  <!--<Target Name="CopyPluginOutputsToHost" AfterTargets="Build" Condition="'$(IsPluginProject)' == 'true'">
+    <PropertyGroup>
+      <HostPluginsFolder>$(HostPluginsBaseFolder)\</HostPluginsFolder>
+      <ProjectOutputDir>$(OutputPath)</ProjectOutputDir>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(HostPluginsFolder)" Condition="!Exists('$(HostPluginsFolder)')" />
+
+    <ItemGroup>
+      <FilesToCopy Include="$(ProjectOutputDir)**\*.*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="@(FilesToCopy->'$(HostPluginsFolder)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>-->
+</Project>
