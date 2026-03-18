@@ -1,34 +1,24 @@
-## Pluginable EF Core template
+## Dynamically reading DbContext entities with EFCore
 
-Struttura:
-- MyApp.Abstractions: contiene `IEntity` (marker interface).
-- MyApp.Host: applicazione host che carica i plugin, registra le assembly per EF e fornisce `MyDbContext`.
-- ExamplePlugin: esempio di plugin con entità `Product` e `ProductConfiguration`.
-- scripts: `build-and-copy.ps1` e `build-and-copy.sh` per costruire e copiare i plugin nella cartella `plugins` del host.
+### Structure:
 
-Requisiti:
-- .NET SDK 8 (i progetti target possono essere aggiornati)
+- App.Abstractions: Contains IEntity (marker interface).
+- App.Host: Host application that loads plugins, registers assemblies for EF, and provides MyDbContext.
+- PluginProduct (ExamplePlugin): Example plugin with Product and ProductConfiguration entities.
+
+### Requirements:
+
+- .NET SDK 8 (target projects can be updated)
 - dotnet CLI
 
-Pacchetti NuGet principali:
-- McMaster.NETCore.Plugins (usato nel host per caricare plugin isolati)
+### Core NuGet packages:
+
+- McMaster.NETCore.Plugins (used in the host to load isolated plugins)
 - Microsoft.EntityFrameworkCore
-- Microsoft.EntityFrameworkCore.SqlServer (o altro provider)
+- Microsoft.EntityFrameworkCore.SqlServer (or other provider)
 
-Come usare (rapida):
-1. Creare la solution e aggiungere i progetti (o semplicemente clonare questa struttura).
-2. Dal root: `dotnet restore`
-3. Costruire la solution e copiare plugin nella cartella output del host:
-   - Windows PowerShell: `.\scripts\build-and-copy.ps1`
-   - Linux/macOS: `./scripts/build-and-copy.sh`
-   I file .dll dei plugin saranno copiati in `MyApp.Host/bin/Debug/net7.0/plugins` (modificabile con parametri).
-4. Eseguire l'host
-   - `dotnet run --project MyApp.Host`
-5. Migrations
-   - Esegui `dotnet ef migrations add Initial --project MyApp.Data --startup-project MyApp.Host`
-   - Assicurati che i plugin siano copiati nella cartella `plugins` del progetto di startup (o imposta `PLUGIN_FOLDER` env var).
+### Notes:
 
-Note:
-- I plugin devono referenziare la stessa assembly `MyApp.Abstractions` (shared) per far funzionare la marker interface.
-- Il template fornisce sia script che un esempio di MSBuild target (opzionale) per copiare i plugin automaticamente.
-- Personalizza i path, target framework e provider DB secondo le tue esigenze.
+- Plugins must reference the same shared MyApp.Abstractions assembly for the marker interface to work.
+- The template provides both scripts and an optional MSBuild target example to automatically copy plugins.
+- Customize the paths, framework targets, and DB providers to suit your needs.
