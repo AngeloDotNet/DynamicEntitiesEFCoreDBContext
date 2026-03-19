@@ -1,4 +1,4 @@
 ﻿namespace App.Abstractions;
 
-public interface IEntity
-{ }
+// Marker interface per identificare le entità nei plugin
+public interface IEntity { }
